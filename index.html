@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <script src='socket.io/socket.io.js'></script>
+  </head>
+  <body>
+    <input id='numberInput' type='number'/>
+    <ul id='myList'></ul>
+  </body>
+  <script>
+    var socket = io(window.location.origin);
+
+    socket.on('numberAdded', function(number){
+      var list = document.getElementById('myList');
+      list.innerHTML += `<li>${ number }</li>`;
+    });
+
+    var input = document.getElementById('numberInput');
+    input.addEventListener('change', function(){
+      socket.emit('numberAdded', input.value);
+      var list = document.getElementById('myList');
+      list.innerHTML += `<li>ME: ${input.value}</li>`;
+      input.value = '';
+    });
+  </script>
+</html>
